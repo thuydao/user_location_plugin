@@ -132,7 +132,9 @@ class _MapsPluginLayerState extends State<MapsPluginLayer> {
   void _moveMapToCurrentLocation() {
     if (firtTimeDetectLocation == true) {
       firtTimeDetectLocation = false;
-      return (widget.options.focusCurrentLocation == false);
+      if (widget.options.focusCurrentLocation == false) {
+        return;
+      }
     }
     widget.options.mapController.move(
         LatLng(_currentLocation.latitude ?? LatLng(0, 0),
