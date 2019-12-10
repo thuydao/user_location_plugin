@@ -23,6 +23,7 @@ class _MapsPluginLayerState extends State<MapsPluginLayer> {
   Marker _locationMarker;
   EventChannel _stream = EventChannel('locationStatusStream');
   var location = Location();
+  var firtTimeDetectLocation = true;
 
   @override
   void initState() {
@@ -31,6 +32,7 @@ class _MapsPluginLayerState extends State<MapsPluginLayer> {
   }
 
   void initialize() {
+    firtTimeDetectLocation = true;
     location.hasPermission().then((onValue) async {
       if (onValue == false) {
         await location.requestPermission();
@@ -128,6 +130,10 @@ class _MapsPluginLayerState extends State<MapsPluginLayer> {
   }
 
   void _moveMapToCurrentLocation() {
+    if (firtTimeDetectLocation == true) {
+      firtTimeDetectLocation = false;
+      return (widget.options.focusCurrentLocation == false);
+    }
     widget.options.mapController.move(
         LatLng(_currentLocation.latitude ?? LatLng(0, 0),
             _currentLocation.longitude ?? LatLng(0, 0)),
