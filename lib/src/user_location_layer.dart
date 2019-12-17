@@ -72,6 +72,9 @@ class _MapsPluginLayerState extends State<MapsPluginLayer> {
     printLog("OnSubscribe to location change");
     location.onLocationChanged().listen((onValue) {
       _addsMarkerLocationToMarkerLocationStream(onValue);
+      if (!this.mounted){
+          return;
+        }
       setState(() {
         if (onValue.latitude == null || onValue.longitude == null) {
           _currentLocation = LatLng(0, 0);
